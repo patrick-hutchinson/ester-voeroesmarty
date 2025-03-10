@@ -9,8 +9,7 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ImageContainer({ medium }) {
-  const [isLoaded, setIsLoaded] = useState(false);
+export default function VideoContainer({ medium }) {
   const imageWrapperRef = useRef(null);
 
   // Three JS Scene Creation
@@ -114,35 +113,7 @@ export default function ImageContainer({ medium }) {
       style={{ position: "relative", width: "100%", height: "fit-content", overflow: "hidden" }}
     >
       {/* Blurred Placeholder (Stays until high-res fully loads) */}
-      <Image
-        src={medium.url}
-        alt="project image"
-        width={medium.width}
-        height={medium.height}
-        style={{
-          position: "relative",
-          top: 0,
-          left: 0,
-          opacity: 1,
-        }}
-      />
-
-      {/* Full-Quality Image (Fades in when fully loaded) */}
-      {/* <Image
-        src={medium.url}
-        alt="project image"
-        width={medium.width}
-        height={medium.height}
-        quality={100}
-        onLoad={() => setIsLoaded(true)}
-        style={{
-          opacity: isLoaded ? 1 : 0,
-          transition: "opacity 0.5s ease-in-out",
-          position: "absolute",
-          top: 0,
-          left: 0,
-        }}
-      /> */}
+      <video autoPlay={true} playsInline={true} loop={true} muted={true} src={medium.url}></video>
       <div ref={mountRef} className="image-wrapper--threejs"></div>
     </div>
   );

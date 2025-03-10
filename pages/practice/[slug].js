@@ -12,6 +12,7 @@ import Image from "next/image";
 // import { useInView } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import ImageContainer from "../components/ImageContainer/ImageContainer";
+import VideoContainer from "../components/VideoContainer/VideoContainer";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
@@ -60,7 +61,8 @@ export default function Practice({ info, media, allProjects }) {
               medium.url && (
                 <div className="practice-image" key={i}>
                   {medium.url.includes(".mp4", "mov", "avi", "flv", "wmv", "3gp", "mkv", "webm") ? (
-                    <video autoPlay={true} playsInline={true} loop={true} muted={true} src={medium.url}></video>
+                    // <video autoPlay={true} playsInline={true} loop={true} muted={true} src={medium.url}></video>
+                    <VideoContainer medium={medium} />
                   ) : (
                     <ImageContainer medium={medium} />
                   )}
