@@ -13,8 +13,6 @@ import Image from "next/image";
 import { useInView } from "react-intersection-observer";
 import ImageContainer from "../components/ImageContainer/ImageContainer";
 
-// import DynamicPlaiceholderBlur from "../components/DynamicPlaiceholderBlur/DynamicPlaiceholderBlur";
-
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -65,7 +63,6 @@ export default function Practice({ info, media, allProjects }) {
                     <video autoPlay={true} playsInline={true} loop={true} muted={true} src={medium.url}></video>
                   ) : (
                     <ImageContainer medium={medium} />
-                    // <DynamicPlaiceholderBlur src={medium.url} />
                   )}
                 </div>
               )

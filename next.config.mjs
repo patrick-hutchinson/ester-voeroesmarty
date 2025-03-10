@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-import withPlaiceholder from "@plaiceholder/next";
 const nextConfig = {
   reactStrictMode: true,
   eslint: {
@@ -10,4 +9,4 @@ const nextConfig = {
   },
 };
 
-export default withPlaiceholder(nextConfig);
+export default nextConfig;
