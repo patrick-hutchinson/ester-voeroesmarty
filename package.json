@@ -1,0 +1,37 @@
+{
+  "name": "esther-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "deploy": "next build && next start -p 3004"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.9.5",
+    "@plaiceholder/next": "^3.0.0",
+    "@portabletext/react": "^3.1.0",
+    "@sanity/client": "^6.21.3",
+    "axios": "^1.6.7",
+    "framer-motion": "^11.5.3",
+    "graphql": "^16.8.1",
+    "gsap": "^3.12.5",
+    "next": "14.1.0",
+    "p5": "^1.9.0",
+    "plaiceholder": "^3.0.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-intersection-observer": "^9.16.0",
+    "react-p5": "^1.4.1",
+    "react-player": "^2.16.0",
+    "react-scrollbars-custom": "^4.1.1",
+    "sass": "^1.71.1",
+    "three": "^0.162.0"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0"
+  }
+}
