@@ -11,16 +11,6 @@ export default function Index({ projects, mainPage }) {
   const { width } = useWindowDimensions();
   const hasRendered = useRef(false);
   const dynID = useRef(0);
-  console.log(projects);
-  console.log(mainPage);
-
-  useEffect(() => {
-    if (!hasRendered.current) {
-      drawConsoleLabel();
-      hasRendered.current = true;
-    }
-    document.body.style.backgroundColor = "white";
-  }, []);
 
   return (
     <MainLayout title="Practice" options={{ items: true, close: false }}>
