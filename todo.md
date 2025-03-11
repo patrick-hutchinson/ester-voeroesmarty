@@ -1,1 +1,2 @@
-Inline Video does not have Filter effect
+Slight Positional Change on Video Player when Thumbnail disappears
+Replace Opening Page

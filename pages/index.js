@@ -48,13 +48,25 @@ export default function Index({ projects, mainPage }) {
 
 export async function getStaticProps() {
   const [projects, mainPage] = await Promise.all([
-    client.fetch(
-      `
-      *[_type == "project" && slug.current == $slug][0] {
+    client.fetch(`
+      *[_type == "project" && showOnHomepage == true] | order(orderRank) {
         _id,
         theme,
         slug,
-        description,
+        showOnHomepage,
+        cover[] {
+          _type == "image" => {
+            "type": _type,
+            "url": asset->url,
+            "lqip": asset->metadata.lqip,
+            "width": asset->metadata.dimensions.width,
+            "height": asset->metadata.dimensions.height,
+          },
+          _type == "file" => {
+            "type": _type,
+            "url": asset->url
+          }
+        },
         embeddedVideos[]{
           "link": link,
           "thumbnail": thumbnail.asset->{
@@ -65,9 +77,7 @@ export async function getStaticProps() {
           }
         }
       }
-      `,
-      { slug: params.slug }
-    ),
+    `),
     client.fetch(`
       *[_type == "mainPage"][0] {
         _id,

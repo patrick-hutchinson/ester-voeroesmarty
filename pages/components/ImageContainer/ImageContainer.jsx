@@ -9,7 +9,6 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ImageContainer({ medium }) {
-  console.log(medium, "medium");
   const imageWrapperRef = useRef(null);
 
   // Three JS Scene Creation
@@ -24,7 +23,6 @@ export default function ImageContainer({ medium }) {
 
     const width = imageWrapperRef.current.getBoundingClientRect().width;
     const height = imageWrapperRef.current.getBoundingClientRect().height;
-    console.log("Scene dimensions:", width, height);
 
     const camera = new THREE.OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, 1, 1000);
     camera.position.z = 100;
@@ -61,9 +59,7 @@ export default function ImageContainer({ medium }) {
     window.addEventListener("resize", updateDimensions);
 
     // *** LOAD IMAGE
-    const texture = new THREE.TextureLoader().load(medium.url, () => {
-      console.log("Image loaded");
-    });
+    const texture = new THREE.TextureLoader().load(medium.url, () => {});
 
     const geometry = new THREE.PlaneGeometry(width, height);
 
@@ -110,15 +106,15 @@ export default function ImageContainer({ medium }) {
       start: "top 50%", // Trigger when the top of the element is 80% from the top of the viewport
       onEnter: () => anim.play(),
       onEnterBack: () => anim.play(),
-      onLeave: () => {
-        material.uniforms.threshold.value = 1;
-        anim.progress(0).pause();
-      },
-      onLeaveBack: () => {
-        material.uniforms.threshold.value = 1;
-        anim.progress(0).pause();
-      },
-      once: false,
+      // onLeave: () => {
+      //   material.uniforms.threshold.value = 1;
+      //   anim.progress(0).pause();
+      // },
+      // onLeaveBack: () => {
+      //   material.uniforms.threshold.value = 1;
+      //   anim.progress(0).pause();
+      // },
+      once: true,
     });
 
     // *** RENDER

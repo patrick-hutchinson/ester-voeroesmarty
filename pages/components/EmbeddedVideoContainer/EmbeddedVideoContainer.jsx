@@ -11,6 +11,7 @@ const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
   const imageWrapperRef = useRef(null);
+  const thumbnailRef = useRef(null);
   // Three JS Scene Creation
   const sceneRenderedRef = useRef(false);
   const mountRef = useRef(null);
@@ -23,7 +24,6 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
 
     const width = imageWrapperRef.current.getBoundingClientRect().width;
     const height = imageWrapperRef.current.getBoundingClientRect().height;
-    console.log("Scene dimensions:", width, height);
 
     const camera = new THREE.OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, 1, 1000);
     camera.position.z = 100;
@@ -60,9 +60,7 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
     window.addEventListener("resize", updateDimensions);
 
     // *** LOAD IMAGE
-    const texture = new THREE.TextureLoader().load(embeddedVideo.thumbnail.url, () => {
-      console.log("Image loaded");
-    });
+    const texture = new THREE.TextureLoader().load(embeddedVideo.thumbnail.url, () => {});
 
     const geometry = new THREE.PlaneGeometry(width, height);
 
@@ -103,21 +101,26 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
       duration: 2.5,
       paused: true,
     });
+    const animOut = gsap.to(material.uniforms.threshold, {
+      value: 1,
+      duration: 2.5,
+      paused: true,
+    });
 
     ScrollTrigger.create({
       trigger: imageWrapperRef.current,
       start: "top 50%", // Trigger when the top of the element is 80% from the top of the viewport
       onEnter: () => anim.play(),
       onEnterBack: () => anim.play(),
-      onLeave: () => {
-        material.uniforms.threshold.value = 1;
-        anim.progress(0).pause();
-      },
-      onLeaveBack: () => {
-        material.uniforms.threshold.value = 1;
-        anim.progress(0).pause();
-      },
-      once: false,
+      //   onLeave: () => {
+      //     animOut.play();
+      //     anim.progress(0).pause();
+      //   },
+      //   onLeaveBack: () => {
+      //     animOut.play();
+      //     anim.progress(0).pause();
+      //   },
+      once: true,
     });
 
     // *** RENDER
@@ -131,11 +134,16 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
     // ***
   }, []);
 
+  function handlePlayVideo() {
+    console.log("click!");
+    thumbnailRef.current.style.opacity = 0;
+  }
+
   return (
-    <div className="image-wrapper" ref={imageWrapperRef}>
-      <>
-        <div className={`play`}>
-          <svg className={`play-icon`} viewBox="0 0 24 30" xmlns="http://www.w3.org/2000/svg">
+    <div className="image-wrapper" ref={imageWrapperRef} onClick={() => handlePlayVideo()}>
+      <div ref={thumbnailRef}>
+        <div className="play">
+          <svg className="play-icon" viewBox="0 0 24 30" xmlns="http://www.w3.org/2000/svg">
             <path d="M24 15L-1.27793e-06 30L3.34153e-08 -1.04907e-06L24 15Z" />
           </svg>
         </div>
@@ -153,7 +161,7 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
           }}
         />
         <div ref={mountRef} className="image-wrapper--threejs"></div>
-      </>
+      </div>
       <ReactPlayer
         style={{
           position: "absolute",
@@ -161,6 +169,8 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
           left: 0,
           opacity: 1,
           zIndex: 3,
+          width: "100%", // Ensures it takes up the full width
+          height: "100%", // Ensures it takes up the full height
         }}
         key={index}
         url={embeddedVideo.link}
