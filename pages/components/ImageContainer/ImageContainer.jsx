@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { useInView } from "framer-motion";
 import Image from "next/image";
 
 import * as THREE from "three";
