@@ -1,12 +1,12 @@
 module.exports = {
   apps: [
     {
-      name: 'esther-voeroesmarty.0to9.studio',
-      cwd: '/var/www/esther-voeroesmarty.0to9.studio',
-      script: 'npm',
-      args: 'run deploy',
+      name: "https://esther-voeroesmarty.sanity.studio",
+      cwd: "/var/www/esther-voeroesmarty.sanity.studio",
+      script: "npm",
+      args: "run deploy",
       env: {
-        SANITY_PROJECT_ID: '9aph7mv7'
+        SANITY_PROJECT_ID: "9aph7mv7",
       },
     },
   ],
