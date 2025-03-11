@@ -54,19 +54,29 @@ export async function getStaticProps() {
         theme,
         slug,
         showOnHomepage,
-        cover[] {
-          _type == "image" => {
-            "type": _type,
-            "url": asset->url,
-            "lqip": asset->metadata.lqip,
-            "width": asset->metadata.dimensions.width,
-            "height": asset->metadata.dimensions.height,
-          },
-          _type == "file" => {
-            "type": _type,
-            "url": asset->url
-          }
-        },
+ cover[] {
+      _type == "image" => {
+        "type": _type,
+        "url": asset->url,
+        "lqip": asset->metadata.lqip,
+        "width": asset->metadata.dimensions.width,
+        "height": asset->metadata.dimensions.height,
+      },
+      _type == "file" => {
+        "type": _type,
+        "url": asset->url
+      },
+      _type == "embeddedVideo" => {
+        "type": _type,
+        "link": link,
+        "thumbnail": thumbnail.asset->{
+          "url": url,
+          "lqip": metadata.lqip,
+          "width": metadata.dimensions.width,
+          "height": metadata.dimensions.height
+        }
+      }
+    },
         embeddedVideos[]{
           "link": link,
           "thumbnail": thumbnail.asset->{
