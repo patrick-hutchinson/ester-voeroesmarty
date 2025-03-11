@@ -1,22 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
-import ImageContainer from "@/pages/components/ImageContainer/ImageContainer";
-import VideoContainer from "@/pages/components/VideoContainer/VideoContainer";
-import EmbeddedVideoContainer from "@/pages/components/EmbeddedVideoContainer/EmbeddedVideoContainer";
+// import ImageContainer from "@/pages/components/ImageContainer/ImageContainer";
+// import EmbeddedVideoContainer from "@/pages/components/EmbeddedVideoContainer/EmbeddedVideoContainer";
 
-gsap.registerPlugin(ScrollTrigger);
+import dynamic from "next/dynamic";
+const EmbeddedVideoContainer = dynamic(
+  () => import("@/pages/components/EmbeddedVideoContainer/EmbeddedVideoContainer"),
+  { ssr: false }
+);
+const ImageContainer = dynamic(() => import("@/pages/components/ImageContainer/ImageContainer"), { ssr: false });
 
-export default function IndexImages({ projects, page }) {
-  const [threeLoading, setThreeLoading] = useState(true);
-  const [projectsWithCover, setProjectsWithCover] = useState(projects.filter((project) => project.cover));
-  const sceneRenderedRef = useRef(false);
-  const mountRef = useRef(null);
-  const proxyContainerRef = useRef(null);
-  const sceneMeshes = [];
-
+export default function IndexImages({ projects }) {
   const media = projects
     .map((project) => project.cover[0]) // Extracts cover[0].url if it exists
     .filter(Boolean); // Removes undefined or null values
@@ -27,8 +21,6 @@ export default function IndexImages({ projects, page }) {
     <div className="practice-images chess-justify">
       {media &&
         media.map((medium, i) => {
-          // if (!medium.url) return null;
-
           if (medium.type == "embeddedVideo") {
             console.log("embedded video!");
             return (

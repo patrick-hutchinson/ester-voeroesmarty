@@ -59,7 +59,7 @@ export default function ImageContainer({ medium }) {
     window.addEventListener("resize", updateDimensions);
 
     // *** LOAD IMAGE
-    const texture = new THREE.TextureLoader().load(medium.url, () => {});
+    const texture = new THREE.TextureLoader().load(medium?.url, () => {});
 
     const geometry = new THREE.PlaneGeometry(width, height);
 
@@ -136,10 +136,10 @@ export default function ImageContainer({ medium }) {
     >
       {/* Blurred Placeholder (Stays until high-res fully loads) */}
       <Image
-        src={medium.lqip}
+        src={medium?.lqip}
         alt="project image"
-        width={medium.width}
-        height={medium.height}
+        width={medium?.width}
+        height={medium?.height}
         style={{
           position: "relative",
           top: 0,

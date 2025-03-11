@@ -11,9 +11,15 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 // import { useInView } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import ImageContainer from "../components/ImageContainer/ImageContainer";
+// import ImageContainer from "../components/ImageContainer/ImageContainer";
 import VideoContainer from "../components/VideoContainer/VideoContainer";
-import EmbeddedVideoContainer from "../components/EmbeddedVideoContainer/EmbeddedVideoContainer";
+// import EmbeddedVideoContainer from "../components/EmbeddedVideoContainer/EmbeddedVideoContainer";
+
+const EmbeddedVideoContainer = dynamic(
+  () => import("@/pages/components/EmbeddedVideoContainer/EmbeddedVideoContainer"),
+  { ssr: false }
+);
+const ImageContainer = dynamic(() => import("@/pages/components/ImageContainer/ImageContainer"), { ssr: false });
 
 gsap.registerPlugin(ScrollToPlugin);
 

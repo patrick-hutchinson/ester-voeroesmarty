@@ -60,7 +60,7 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
     window.addEventListener("resize", updateDimensions);
 
     // *** LOAD IMAGE
-    const texture = new THREE.TextureLoader().load(embeddedVideo.thumbnail.url, () => {});
+    const texture = new THREE.TextureLoader().load(embeddedVideo.thumbnail?.url, () => {});
 
     const geometry = new THREE.PlaneGeometry(width, height);
 
@@ -148,10 +148,10 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
           </svg>
         </div>
         <Image
-          src={embeddedVideo.thumbnail.lqip}
+          src={embeddedVideo.thumbnail?.lqip}
           alt="project image"
-          width={embeddedVideo.thumbnail.width}
-          height={embeddedVideo.thumbnail.height}
+          width={embeddedVideo.thumbnail?.width}
+          height={embeddedVideo.thumbnail?.height}
           style={{
             position: "relative",
             top: 0,
