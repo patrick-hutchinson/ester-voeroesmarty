@@ -15,8 +15,6 @@ import ImageContainer from "../components/ImageContainer/ImageContainer";
 import VideoContainer from "../components/VideoContainer/VideoContainer";
 import EmbeddedVideoContainer from "../components/EmbeddedVideoContainer/EmbeddedVideoContainer";
 
-const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
-
 gsap.registerPlugin(ScrollToPlugin);
 
 export default function Practice({ info, media, allProjects }) {

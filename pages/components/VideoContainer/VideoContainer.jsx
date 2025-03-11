@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { useInView } from "framer-motion";
-import Image from "next/image";
+// import { useInView } from "framer-motion";
+// import Image from "next/image";
 
-import * as THREE from "three";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+// import * as THREE from "three";
+// import gsap from "gsap";
+// import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 // gsap.registerPlugin(ScrollTrigger);
 
@@ -113,7 +113,9 @@ export default function VideoContainer({ medium }) {
       style={{ position: "relative", width: "100%", height: "fit-content", overflow: "hidden" }}
     >
       {/* Blurred Placeholder (Stays until high-res fully loads) */}
-      <video autoPlay={true} playsInline={true} loop={true} muted={true} src={medium.url}></video>
+      <video autoPlay={true} playsInline={true} loop={true} muted={true}>
+        <source src={medium.url} />
+      </video>
       <div ref={mountRef} className="image-wrapper--threejs"></div>
     </div>
   );
