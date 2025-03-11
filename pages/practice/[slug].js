@@ -76,7 +76,8 @@ export default function Practice({ info, media, allProjects }) {
         {info.embeddedVideos &&
           info.embeddedVideos.map(
             (embeddedVideo, i) =>
-              embeddedVideo.url && (
+              embeddedVideo.url &&
+              embeddedVideo.thumbnail && (
                 <div className="practice-image" key={i}>
                   <EmbeddedVideoContainer embeddedVideo={embeddedVideo} index={i} />
                 </div>

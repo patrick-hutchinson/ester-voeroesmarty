@@ -60,7 +60,7 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
     window.addEventListener("resize", updateDimensions);
 
     // *** LOAD IMAGE
-    const texture = new THREE.TextureLoader().load(embeddedVideo.thumbnail?.url, () => {});
+    const texture = new THREE.TextureLoader().load(embeddedVideo.thumbnail.url, () => {});
 
     const geometry = new THREE.PlaneGeometry(width, height);
 
