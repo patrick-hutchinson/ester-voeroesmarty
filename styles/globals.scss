@@ -401,14 +401,18 @@ nav.menu {
 }
 
 .image-wrapper--threejs {
-  // width: 100vw;
-
   position: absolute;
   height: 100%;
   width: 100%;
   top: 0;
   pointer-events: none;
   z-index: 4;
+}
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: fit-content;
+  overflow: hidden;
 }
 
 .practice-counter {
@@ -504,11 +508,11 @@ nav.menu {
     align-items: center;
 
     .video-player {
-      position: relative !important;
+      // position: relative !important;
       width: 100% !important;
       height: 100% !important;
       aspect-ratio: 16 / 9 !important;
-      z-index: 999999;
+      // z-index: 999999;
       pointer-events: all;
 
       &:hover {
@@ -1198,7 +1202,7 @@ $lineHeight: 0.3px;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s ease;
 
   .play-icon {

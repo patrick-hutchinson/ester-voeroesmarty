@@ -10,7 +10,7 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ImageContainer({ medium }) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  console.log(medium, "medium");
   const imageWrapperRef = useRef(null);
 
   // Three JS Scene Creation
@@ -22,7 +22,6 @@ export default function ImageContainer({ medium }) {
 
     // *** DEFINE SCENE
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color("red");
 
     const width = imageWrapperRef.current.getBoundingClientRect().width;
     const height = imageWrapperRef.current.getBoundingClientRect().height;
@@ -35,6 +34,32 @@ export default function ImageContainer({ medium }) {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Prevent extreme jumps
     mountRef.current.appendChild(renderer.domElement);
+
+    const updateDimensions = () => {
+      const width = imageWrapperRef.current.getBoundingClientRect().width;
+      const height = imageWrapperRef.current.getBoundingClientRect().height;
+
+      // Update camera and renderer size
+      camera.left = -width / 2;
+      camera.right = width / 2;
+      camera.top = height / 2;
+      camera.bottom = -height / 2;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(width, height);
+
+      // Update the plane geometry
+      mesh.geometry = new THREE.PlaneGeometry(width, height);
+
+      // Update texture scale to maintain aspect ratio
+      texture.repeat.set(width / texture.image.width, height / texture.image.height);
+    };
+
+    // Add this to window resize event listener:
+    window.addEventListener("resize", updateDimensions);
+
+    // Update dimensions on window resize
+    window.addEventListener("resize", updateDimensions);
 
     // *** LOAD IMAGE
     const texture = new THREE.TextureLoader().load(medium.url, () => {
@@ -83,7 +108,7 @@ export default function ImageContainer({ medium }) {
 
     ScrollTrigger.create({
       trigger: imageWrapperRef.current,
-      start: "top 20%", // Trigger when the top of the element is 80% from the top of the viewport
+      start: "top 50%", // Trigger when the top of the element is 80% from the top of the viewport
       onEnter: () => anim.play(),
       onEnterBack: () => anim.play(),
       onLeave: () => {
@@ -104,6 +129,7 @@ export default function ImageContainer({ medium }) {
     };
 
     animate();
+
     // ***
   }, []);
 
@@ -115,7 +141,7 @@ export default function ImageContainer({ medium }) {
     >
       {/* Blurred Placeholder (Stays until high-res fully loads) */}
       <Image
-        src={medium.url}
+        src={medium.lqip}
         alt="project image"
         width={medium.width}
         height={medium.height}
@@ -126,23 +152,6 @@ export default function ImageContainer({ medium }) {
           opacity: 1,
         }}
       />
-
-      {/* Full-Quality Image (Fades in when fully loaded) */}
-      {/* <Image
-        src={medium.url}
-        alt="project image"
-        width={medium.width}
-        height={medium.height}
-        quality={100}
-        onLoad={() => setIsLoaded(true)}
-        style={{
-          opacity: isLoaded ? 1 : 0,
-          transition: "opacity 0.5s ease-in-out",
-          position: "absolute",
-          top: 0,
-          left: 0,
-        }}
-      /> */}
       <div ref={mountRef} className="image-wrapper--threejs"></div>
     </div>
   );

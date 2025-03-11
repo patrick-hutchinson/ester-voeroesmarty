@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import client from "@/sanityClient";
 import { MainLayout } from "@/components/MainLayout";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
 import NextPost from "@/components/slug/NextPost";
@@ -13,6 +13,7 @@ import Image from "next/image";
 import { useInView } from "react-intersection-observer";
 import ImageContainer from "../components/ImageContainer/ImageContainer";
 import VideoContainer from "../components/VideoContainer/VideoContainer";
+import EmbeddedVideoContainer from "../components/EmbeddedVideoContainer/EmbeddedVideoContainer";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
@@ -21,6 +22,8 @@ gsap.registerPlugin(ScrollToPlugin);
 export default function Practice({ info, media, allProjects }) {
   console.log("info", info);
   console.log("media", media);
+
+  let playerRef = useRef(null);
 
   useEffect(() => {
     document.body.style.backgroundColor = "white";
@@ -70,22 +73,9 @@ export default function Practice({ info, media, allProjects }) {
               )
           )}
         {info.embeddedVideos &&
-          info.embeddedVideos.map((url, i) => (
+          info.embeddedVideos.map((embeddedVideo, i) => (
             <div className="practice-image" key={i}>
-              <ReactPlayer
-                key={i}
-                url={url}
-                className={`video-player`}
-                light
-                controls
-                playIcon={
-                  <div className={`play`}>
-                    <svg className={`play-icon`} viewBox="0 0 24 30" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M24 15L-1.27793e-06 30L3.34153e-08 -1.04907e-06L24 15Z" />
-                    </svg>
-                  </div>
-                }
-              ></ReactPlayer>
+              <EmbeddedVideoContainer embeddedVideo={embeddedVideo} index={i} />
             </div>
           ))}
       </div>
@@ -146,9 +136,17 @@ export async function getStaticProps({ params }) {
         theme,
         slug,
         description,
-        embeddedVideos,
+        embeddedVideos[]{
+          "link": link,
+          "thumbnail": thumbnail.asset->{
+            "url": url,
+            "lqip": metadata.lqip,
+            "width": metadata.dimensions.width,
+            "height": metadata.dimensions.height
+          }
+        }
       }
-    `,
+      `,
       { slug: params.slug }
     ),
 
