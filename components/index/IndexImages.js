@@ -24,7 +24,6 @@ export default function IndexImages({ projects }) {
       {media &&
         media.map((medium, i) => {
           if (medium.type == "embeddedVideo") {
-            console.log("embedded video!");
             return (
               <div className="practice-image" key={i}>
                 <EmbeddedVideoContainer embeddedVideo={medium} index={i} />

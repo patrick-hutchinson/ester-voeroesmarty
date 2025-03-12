@@ -56,7 +56,6 @@ export default function ImageContainer({ medium }) {
     window.addEventListener("resize", updateDimensions);
 
     // Update dimensions on window resize
-    window.addEventListener("resize", updateDimensions);
 
     // *** LOAD IMAGE
     const texture = new THREE.TextureLoader().load(medium?.url, () => {});
