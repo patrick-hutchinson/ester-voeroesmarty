@@ -16,9 +16,10 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
   const sceneRenderedRef = useRef(false);
   const mountRef = useRef(null);
   useEffect(() => {
-    if (sceneRenderedRef.current || !embeddedVideo?.thumbnail?.url) return; // Prevent execution if URL is missing
+    if (sceneRenderedRef.current) return;
     sceneRenderedRef.current = true;
 
+    // *** DEFINE SCENE
     const scene = new THREE.Scene();
 
     const width = imageWrapperRef.current.getBoundingClientRect().width;
@@ -29,14 +30,14 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
 
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Prevent extreme jumps
     mountRef.current.appendChild(renderer.domElement);
 
     const updateDimensions = () => {
-      if (!imageWrapperRef.current) return;
       const width = imageWrapperRef.current.getBoundingClientRect().width;
       const height = imageWrapperRef.current.getBoundingClientRect().height;
 
+      // Update camera and renderer size
       camera.left = -width / 2;
       camera.right = width / 2;
       camera.top = height / 2;
@@ -44,44 +45,85 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
       camera.updateProjectionMatrix();
 
       renderer.setSize(width, height);
+
+      // Update the plane geometry
+      mesh.geometry = new THREE.PlaneGeometry(width, height);
+
+      // Update texture scale to maintain aspect ratio
+      texture.repeat.set(width / texture.image.width, height / texture.image.height);
     };
 
+    // Add this to window resize event listener:
     window.addEventListener("resize", updateDimensions);
 
-    const texture = new THREE.TextureLoader().load(embeddedVideo.thumbnail.url); // Safe to use here
+    // Update dimensions on window resize
+    window.addEventListener("resize", updateDimensions);
+
+    // *** LOAD IMAGE
+    const texture = new THREE.TextureLoader().load(embeddedVideo.thumbnail.url, () => {});
 
     const geometry = new THREE.PlaneGeometry(width, height);
+
     const material = new THREE.ShaderMaterial({
       uniforms: {
         imageTexture: { value: texture },
         threshold: { value: 1 },
       },
       vertexShader: `
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
+                                varying vec2 vUv;
+                                void main() {
+                                    vUv = uv;
+                                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                                }
+                            `,
       fragmentShader: `
-        uniform sampler2D imageTexture;
-        uniform float threshold;
-        varying vec2 vUv;
-        void main() {
-          vec4 texel = texture2D(imageTexture, vUv);
-          float brightness = dot(texel.rgb, vec3(0.299, 0.587, 0.114));
-          if (brightness > threshold) {
-            gl_FragColor = vec4(texel.rgb, 1.0);
-          } else {
-            gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
-          }
-        }
-      `,
+                                uniform sampler2D imageTexture;
+                                uniform float threshold;
+                                varying vec2 vUv;
+                                void main() {
+                                    vec4 texel = texture2D(imageTexture, vUv);
+                                    float brightness = dot(texel.rgb, vec3(0.299, 0.587, 0.114));
+                                    if (brightness > threshold) {
+                                        gl_FragColor = vec4(texel.rgb, 1.0);
+                                    } else {
+                                        gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+                                    }
+                                }
+                            `,
     });
 
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.userData.aspectRatio = height / width;
     scene.add(mesh);
 
+    const anim = gsap.to(material.uniforms.threshold, {
+      value: -1,
+      duration: 2.5,
+      paused: true,
+    });
+    const animOut = gsap.to(material.uniforms.threshold, {
+      value: 1,
+      duration: 2.5,
+      paused: true,
+    });
+
+    ScrollTrigger.create({
+      trigger: imageWrapperRef.current,
+      start: "top 50%", // Trigger when the top of the element is 80% from the top of the viewport
+      onEnter: () => anim.play(),
+      onEnterBack: () => anim.play(),
+      //   onLeave: () => {
+      //     animOut.play();
+      //     anim.progress(0).pause();
+      //   },
+      //   onLeaveBack: () => {
+      //     animOut.play();
+      //     anim.progress(0).pause();
+      //   },
+      once: true,
+    });
+
+    // *** RENDER
     const animate = () => {
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
@@ -89,17 +131,16 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
 
     animate();
 
-    return () => {
-      window.removeEventListener("resize", updateDimensions);
-    };
-  }, [embeddedVideo]); // Depend on `embeddedVideo` to ensure it has valid data
+    // ***
+  }, []);
 
   function handlePlayVideo() {
     console.log("click!");
-    if (thumbnailRef.current) {
-      thumbnailRef.current.style.opacity = 0;
-    }
+    thumbnailRef.current.style.opacity = 0;
   }
+
+  if (!embeddedVideo?.thumbnail) return null; // Prevents crashing during SSR
+  if (!embeddedVideo) return <div>Loading...</div>;
 
   return (
     <div className="image-wrapper" ref={imageWrapperRef} onClick={() => handlePlayVideo()}>
@@ -110,10 +151,10 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
           </svg>
         </div>
         <Image
-          src={embeddedVideo.thumbnail?.lqip}
+          src={embeddedVideo.thumbnail.lqip}
           alt="project image"
-          width={embeddedVideo.thumbnail?.width}
-          height={embeddedVideo.thumbnail?.height}
+          width={embeddedVideo.thumbnail.width}
+          height={embeddedVideo.thumbnail.height}
           style={{
             position: "relative",
             top: 0,
@@ -124,23 +165,21 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
         />
         <div ref={mountRef} className="image-wrapper--threejs"></div>
       </div>
-      {embeddedVideo.link && (
-        <ReactPlayer
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            opacity: 1,
-            zIndex: 3,
-            width: "100%",
-            height: "100%",
-          }}
-          key={index}
-          url={embeddedVideo.link}
-          className="video-player"
-          controls
-        />
-      )}
+      <ReactPlayer
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          opacity: 1,
+          zIndex: 3,
+          width: "100%", // Ensures it takes up the full width
+          height: "100%", // Ensures it takes up the full height
+        }}
+        key={index}
+        url={embeddedVideo.link}
+        className={`video-player`}
+        controls
+      ></ReactPlayer>
     </div>
   );
 }

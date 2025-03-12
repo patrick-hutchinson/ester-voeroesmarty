@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import ImageContainer from "@/pages/components/ImageContainer/ImageContainer";
-import EmbeddedVideoContainer from "@/pages/components/EmbeddedVideoContainer/EmbeddedVideoContainer";
+// import EmbeddedVideoContainer from "@/pages/components/EmbeddedVideoContainer/EmbeddedVideoContainer";
 
-// import dynamic from "next/dynamic";
-// const EmbeddedVideoContainer = dynamic(
-//   () => import("@/pages/components/EmbeddedVideoContainer/EmbeddedVideoContainer"),
-//   { ssr: false }
-// );
-// const ImageContainer = dynamic(() => import("@/pages/components/ImageContainer/ImageContainer"), { ssr: false });
+import dynamic from "next/dynamic";
+
+const EmbeddedVideoContainer = dynamic(() => import("./EmbeddedVideoContainer"), {
+  ssr: false,
+});
 
 export default function IndexImages({ projects }) {
   const media = projects

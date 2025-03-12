@@ -10,13 +10,13 @@ import { PortableText } from "@portabletext/react";
 
 import ImageContainer from "../components/ImageContainer/ImageContainer";
 import VideoContainer from "../components/VideoContainer/VideoContainer";
-import EmbeddedVideoContainer from "../components/EmbeddedVideoContainer/EmbeddedVideoContainer";
+// import EmbeddedVideoContainer from "../components/EmbeddedVideoContainer/EmbeddedVideoContainer";
 
-// const EmbeddedVideoContainer = dynamic(
-//   () => import("@/pages/components/EmbeddedVideoContainer/EmbeddedVideoContainer"),
-//   { ssr: false }
-// );
-// const ImageContainer = dynamic(() => import("@/pages/components/ImageContainer/ImageContainer"), { ssr: false });
+import dynamic from "next/dynamic";
+
+const EmbeddedVideoContainer = dynamic(() => import("./EmbeddedVideoContainer"), {
+  ssr: false,
+});
 
 gsap.registerPlugin(ScrollToPlugin);
 
