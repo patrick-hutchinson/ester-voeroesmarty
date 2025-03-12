@@ -5,9 +5,12 @@ import ImageContainer from "@/pages/components/ImageContainer/ImageContainer";
 
 import dynamic from "next/dynamic";
 
-const EmbeddedVideoContainer = dynamic(() => import("./EmbeddedVideoContainer"), {
-  ssr: false,
-});
+const EmbeddedVideoContainer = dynamic(
+  () => import("@/pages/components/EmbeddedVideoContainer/EmbeddedVideoContainer"),
+  {
+    ssr: false,
+  }
+);
 
 export default function IndexImages({ projects }) {
   const media = projects

@@ -14,9 +14,12 @@ import VideoContainer from "../components/VideoContainer/VideoContainer";
 
 import dynamic from "next/dynamic";
 
-const EmbeddedVideoContainer = dynamic(() => import("./EmbeddedVideoContainer"), {
-  ssr: false,
-});
+const EmbeddedVideoContainer = dynamic(
+  () => import("@/pages/components/EmbeddedVideoContainer/EmbeddedVideoContainer"),
+  {
+    ssr: false,
+  }
+);
 
 gsap.registerPlugin(ScrollToPlugin);
 
