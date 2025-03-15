@@ -58,7 +58,13 @@ export default function ImageContainer({ medium }) {
     // Update dimensions on window resize
 
     // *** LOAD IMAGE
-    const texture = new THREE.TextureLoader().load(medium?.url, () => {});
+    const texture = new THREE.TextureLoader().load(medium?.url, () => {
+      material.uniforms.imageTexture.value = texture;
+      anim.play(); // ✅ Play GSAP animation when the texture is ready
+    });
+
+    // Hide canvas initially
+    // mountRef.current.style.opacity = 0;
 
     const geometry = new THREE.PlaneGeometry(width, height);
 
