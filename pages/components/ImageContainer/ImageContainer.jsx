@@ -58,7 +58,13 @@ export default function ImageContainer({ medium }) {
     // Update dimensions on window resize
 
     // *** LOAD IMAGE
-    const texture = new THREE.TextureLoader().load(medium?.url, () => {
+    const getOptimizedImageUrl = (url) => {
+      if (!url) return null;
+      return window.innerWidth <= 768 ? `${url}?w=1000` : url; // Adjust width threshold as needed
+    };
+
+    const texture = new THREE.TextureLoader().load(getOptimizedImageUrl(medium?.url), () => {
+      console.log(medium.url, "medium url");
       // Once the texture loads, reveal the plane
       material.uniforms.threshold.value = 1; // Ensure the image is fully visible
       mountRef.current.style.opacity = 1; // Show Three.js canvas
