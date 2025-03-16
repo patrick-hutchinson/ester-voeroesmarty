@@ -59,9 +59,13 @@ export default function ImageContainer({ medium }) {
 
     // *** LOAD IMAGE
     const texture = new THREE.TextureLoader().load(medium?.url, () => {
-      material.uniforms.imageTexture.value = texture;
-      anim.play(); // ✅ Play GSAP animation when the texture is ready
+      // Once the texture loads, reveal the plane
+      material.uniforms.threshold.value = 1; // Ensure the image is fully visible
+      mountRef.current.style.opacity = 1; // Show Three.js canvas
     });
+
+    // Initially hide the Three.js canvas
+    mountRef.current.style.opacity = 0;
 
     // Hide canvas initially
     // mountRef.current.style.opacity = 0;
@@ -111,14 +115,6 @@ export default function ImageContainer({ medium }) {
       start: "top 50%", // Trigger when the top of the element is 80% from the top of the viewport
       onEnter: () => anim.play(),
       onEnterBack: () => anim.play(),
-      // onLeave: () => {
-      //   material.uniforms.threshold.value = 1;
-      //   anim.progress(0).pause();
-      // },
-      // onLeaveBack: () => {
-      //   material.uniforms.threshold.value = 1;
-      //   anim.progress(0).pause();
-      // },
       once: true,
     });
 
