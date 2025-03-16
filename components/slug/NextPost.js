@@ -12,18 +12,16 @@ export default function NextPost({ arr }) {
 
     index < arr.length - 1
       ? setLink(
-          <Link href={`/practice/${arr[index + 1].slug.current}`} className="next">
+          <a href={`/practice/${arr[index + 1].slug.current}`} className="next">
             Next
-          </Link>
+          </a>
         )
       : setLink(
-          <Link href={`/practice/${arr[0].slug.current}`} className="next">
+          <a href={`/practice/${arr[0].slug.current}`} className="next">
             Next
-          </Link>
+          </a>
         );
   }, [router]);
 
-  return (
-    <span>{link}</span>
-  );
+  return <span>{link}</span>;
 }

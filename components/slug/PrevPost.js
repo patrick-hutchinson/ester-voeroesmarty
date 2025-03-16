@@ -12,14 +12,14 @@ export default function PrevPost({ arr }) {
 
     index > 0
       ? setLink(
-          <Link href={`/practice/${arr[index - 1].slug.current}`} className="prev">
+          <a href={`/practice/${arr[index - 1].slug.current}`} className="prev">
             Previous
-          </Link>
+          </a>
         )
       : setLink(
-          <Link href={`/practice/${arr[arr.length - 1].slug.current}`} className="prev">
+          <a href={`/practice/${arr[arr.length - 1].slug.current}`} className="prev">
             Previous
-          </Link>
+          </a>
         );
   }, [router]);
 

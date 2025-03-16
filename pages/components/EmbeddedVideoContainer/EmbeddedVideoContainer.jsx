@@ -34,8 +34,8 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
     mountRef.current.appendChild(renderer.domElement);
 
     const updateDimensions = () => {
-      const width = imageWrapperRef.current.getBoundingClientRect().width;
-      const height = imageWrapperRef.current.getBoundingClientRect().height;
+      const width = imageWrapperRef.current?.getBoundingClientRect().width;
+      const height = imageWrapperRef.current?.getBoundingClientRect().height;
 
       // Update camera and renderer size
       camera.left = -width / 2;

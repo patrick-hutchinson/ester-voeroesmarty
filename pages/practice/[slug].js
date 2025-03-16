@@ -67,10 +67,7 @@ export default function Practice({ info, media, allProjects }) {
             (medium, i) =>
               medium.url && (
                 <div className="practice-image" key={i}>
-                  {medium.url.includes(".mp4", "mov", "avi", "flv", "wmv", "3gp", "mkv", "webm") ? (
-                    // <video autoPlay={true} playsInline={true} loop={true} muted={true} src={medium.url}></video>
-                    <VideoContainer medium={medium} />
-                  ) : (
+                  {medium.url.includes(".mp4", "mov", "avi", "flv", "wmv", "3gp", "mkv", "webm") ? null : (
                     <ImageContainer medium={medium} />
                   )}
                 </div>
