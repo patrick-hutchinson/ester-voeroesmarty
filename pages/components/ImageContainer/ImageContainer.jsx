@@ -29,7 +29,7 @@ export default function ImageContainer({ medium }) {
 
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Prevent extreme jumps
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // Prevent extreme jumps
     mountRef.current.appendChild(renderer.domElement);
 
     const updateDimensions = () => {
@@ -112,7 +112,7 @@ export default function ImageContainer({ medium }) {
 
     ScrollTrigger.create({
       trigger: imageWrapperRef.current,
-      start: "top 50%", // Trigger when the top of the element is 80% from the top of the viewport
+      start: "top 50%",
       onEnter: () => anim.play(),
       onEnterBack: () => anim.play(),
       once: true,
@@ -120,11 +120,39 @@ export default function ImageContainer({ medium }) {
 
     // *** RENDER
     const animate = () => {
+      if (!sceneRenderedRef.current) return; // Stop if component unmounts
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     };
 
     animate();
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) animate(); // Resume animation
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(imageWrapperRef.current);
+
+    return () => {
+      console.log("✅ Cleaning up Three.js scene");
+
+      window.removeEventListener("resize", updateDimensions);
+
+      material.dispose();
+      geometry.dispose();
+      texture.dispose();
+      renderer.dispose();
+      scene.remove(mesh);
+
+      if (mountRef.current && renderer.domElement) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
+
+      sceneRenderedRef.current = false;
+    };
   }, []);
 
   return (
