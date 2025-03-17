@@ -24,9 +24,6 @@ const EmbeddedVideoContainer = dynamic(
 gsap.registerPlugin(ScrollToPlugin);
 
 export default function Practice({ info, media, allProjects }) {
-  console.log("info", info);
-  console.log("media", media);
-
   let playerRef = useRef(null);
 
   useEffect(() => {

@@ -151,7 +151,7 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
           </svg>
         </div>
         <Image
-          src={embeddedVideo.thumbnail.lqip}
+          src={`${embeddedVideo.thumbnail.url}?w=20`}
           alt="project image"
           width={embeddedVideo.thumbnail.width}
           height={embeddedVideo.thumbnail.height}

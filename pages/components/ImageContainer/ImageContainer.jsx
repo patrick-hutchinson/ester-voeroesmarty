@@ -161,6 +161,14 @@ export default function ImageContainer({ medium }) {
     };
   }, []);
 
+  const getLQIP = (url) => {
+    if (!url) return null;
+    if (typeof window !== "undefined" && window.innerWidth <= 768) {
+      return `${url}?w=20`; // Use low-res version on mobile
+    }
+    return url; // Use original URL on desktop
+  };
+
   return (
     <div
       ref={imageWrapperRef}
@@ -169,7 +177,7 @@ export default function ImageContainer({ medium }) {
     >
       {/* Blurred Placeholder (Stays until high-res fully loads) */}
       <Image
-        src={medium?.lqip}
+        src={`${medium?.url}?w=20`}
         alt="project image"
         width={medium?.width}
         height={medium?.height}
