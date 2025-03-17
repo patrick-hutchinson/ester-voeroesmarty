@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { MainLayout } from "@/components/MainLayout";
-import gsap from 'gsap';
-import client from '@/sanityClient';
-import Image from 'next/image'
+import gsap from "gsap";
+import client from "@/sanityClient";
+import Image from "next/image";
 import useWindowDimensions from "@/utils/useWindowDimensions";
 
 export default function Goods({ goods }) {
@@ -10,28 +10,28 @@ export default function Goods({ goods }) {
   const { width } = useWindowDimensions();
 
   useEffect(() => {
-    gsap.to(document.body, { 
-      backgroundColor: 'black', 
+    gsap.to(document.body, {
+      backgroundColor: "black",
       duration: 0.1,
     });
   }, []);
 
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent('manualScroll'));
+    window.dispatchEvent(new CustomEvent("manualScroll"));
 
-    const mediaItems = document.querySelectorAll('.goods-media-item');
+    const mediaItems = document.querySelectorAll(".goods-media-item");
     const speed = 0.3;
-  
+
     mediaItems.forEach((item, i) => {
       if (i !== index) {
-        gsap.to(item, { 
-          autoAlpha: 0, 
+        gsap.to(item, {
+          autoAlpha: 0,
           duration: speed,
-          onComplete: () => gsap.set(item, { display: 'none' })
+          onComplete: () => gsap.set(item, { display: "none" }),
         });
       }
     });
-  
+
     gsap.to(mediaItems[index], {
       duration: speed,
       autoAlpha: 0,
@@ -39,33 +39,35 @@ export default function Goods({ goods }) {
       onComplete: () => {
         mediaItems.forEach((mediaItem, i) => {
           if (i !== index) {
-            gsap.set(mediaItem, { display: 'none' });
+            gsap.set(mediaItem, { display: "none" });
           }
         });
-  
+
         if (mediaItems[index]) {
-          gsap.set(mediaItems[index], { display: 'none' }); 
+          gsap.set(mediaItems[index], { display: "none" });
           gsap.to(mediaItems[index], {
             duration: speed,
             autoAlpha: 1,
             ease: "power2.inOut",
-            onStart: () => gsap.set(mediaItems[index], { display: 'block' })
+            onStart: () => gsap.set(mediaItems[index], { display: "block" }),
           });
         }
-      }
+      },
     });
-  
   }, [index]);
-  
 
   return (
-    <MainLayout title="Goods" options={{items: false, close: true}}>
+    <MainLayout title="Goods" options={{ items: false, close: true }}>
       <section className="goods">
         <div className="goods-list">
           {goods.map((good, i) => (
-            <div className={`goods-list-item ${index !== i ? 'deselected' : ''}`} key={i} onClick={() => {
-              width >= 1366 && setIndex(i)
-            }}>
+            <div
+              className={`goods-list-item ${index !== i ? "deselected" : ""}`}
+              key={i}
+              onClick={() => {
+                width >= 1366 && setIndex(i);
+              }}
+            >
               <div className="goods-list-item__title">
                 <h1>{good.title}</h1>
               </div>
@@ -76,11 +78,11 @@ export default function Goods({ goods }) {
                   <p className="caption">{good.location && good.location}</p>
                   <p className="caption">{good.sizeAndPrice && good.sizeAndPrice}</p>
                   <p className="caption">
-                    {!good.soldOut && 
+                    {!good.soldOut && (
                       <a href={good.buyLink} target="_blank">
                         (Buy)
                       </a>
-                    } 
+                    )}
                   </p>
                 </div>
               </div>
@@ -89,7 +91,7 @@ export default function Goods({ goods }) {
                   <div className="media-item" key={j}>
                     <Image
                       src={medium.url}
-                      placeholder='blur'
+                      placeholder="blur"
                       blurDataURL={medium.lqip}
                       width={medium.width}
                       height={medium.height}
@@ -98,17 +100,6 @@ export default function Goods({ goods }) {
                   </div>
                 ))}
               </div>
-              <div className="goods-list-item__description">
-                <span>Specification</span>
-                {
-                  width >= 1366 
-                    ?
-                      <h1>{good.specification}</h1>
-                    :
-                      <span>{good.specification}</span>
-                }
-
-              </div> 
             </div>
           ))}
         </div>
@@ -119,7 +110,7 @@ export default function Goods({ goods }) {
                 <Image
                   key={j}
                   src={medium.url}
-                  placeholder='blur'
+                  placeholder="blur"
                   blurDataURL={medium.lqip}
                   width={medium.width}
                   height={medium.height}
@@ -157,8 +148,8 @@ export async function getStaticProps() {
 
   return {
     props: {
-      goods, 
+      goods,
     },
-    revalidate: 1, 
-  }
+    revalidate: 1,
+  };
 }
