@@ -50,7 +50,7 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
       mesh.geometry = new THREE.PlaneGeometry(width, height);
 
       // Update texture scale to maintain aspect ratio
-      texture.repeat.set(width / texture.image.width, height / texture.image.height);
+      // texture.repeat.set(width / texture.image.width, height / texture.image.height);
     };
 
     // Add this to window resize event listener:
