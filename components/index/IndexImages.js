@@ -17,8 +17,6 @@ export default function IndexImages({ projects }) {
     .map((project) => project.cover[0]) // Extracts cover[0].url if it exists
     .filter(Boolean); // Removes undefined or null values
 
-  console.log(media, "projects");
-
   return (
     <div className="practice-images chess-justify">
       {media &&

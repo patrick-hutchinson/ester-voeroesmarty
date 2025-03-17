@@ -32,10 +32,18 @@ export default function Menu({
   }
 
   useEffect(() => {
-    window.addEventListener("resize", () => {
-      menuRef.current.style["mix-blend-mode"] = "difference !important";
-    });
-  });
+    const handleResize = () => {
+      if (menuRef.current) {
+        console.log("resize!");
+        menuRef.current.style.setProperty("mix-blend-mode", "difference");
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Apply on initial mount
+
+    return () => window.removeEventListener("resize", handleResize); // Cleanup
+  }, []);
 
   return (
     <nav
