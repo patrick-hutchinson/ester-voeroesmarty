@@ -24,11 +24,11 @@ export default function IndexImages({ projects }) {
         media.map((medium, i) => {
           if (medium.type == "embeddedVideo") {
             return (
-              <div className="practice-image" key={i}>
-                <a href={`/practice/${medium.slug?.current}`}>
+              <a href={`/practice/${medium.slug?.current}`}>
+                <div className="practice-image" key={i}>
                   <EmbeddedVideoContainer embeddedVideo={medium} index={i} />
-                </a>
-              </div>
+                </div>
+              </a>
             );
           }
 
