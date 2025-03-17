@@ -31,19 +31,19 @@ export default function Menu({
     });
   }
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (menuRef.current) {
-        console.log("resize!");
-        menuRef.current.style.setProperty("mix-blend-mode", "difference", "important");
-      }
-    };
+  //   useEffect(() => {
+  //     const handleResize = () => {
+  //       if (menuRef.current) {
+  //         console.log("resize!");
+  //         menuRef.current.style.setProperty("mix-blend-mode", "difference", "important");
+  //       }
+  //     };
 
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Apply on initial mount
+  //     window.addEventListener("resize", handleResize);
+  //     handleResize(); // Apply on initial mount
 
-    return () => window.removeEventListener("resize", handleResize); // Cleanup
-  }, []);
+  //     return () => window.removeEventListener("resize", handleResize); // Cleanup
+  //   }, []);
 
   return (
     <nav

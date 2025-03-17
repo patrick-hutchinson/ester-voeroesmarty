@@ -13,9 +13,10 @@ const EmbeddedVideoContainer = dynamic(
 );
 
 export default function IndexImages({ projects }) {
+  console.log(projects);
   const media = projects
-    .map((project) => project.cover[0]) // Extracts cover[0].url if it exists
-    .filter(Boolean); // Removes undefined or null values
+    .map((project) => project.cover[0] && { ...project.cover[0], slug: project.slug }) // Include slug
+    .filter(Boolean);
 
   return (
     <div className="practice-images chess-justify">
@@ -24,15 +25,19 @@ export default function IndexImages({ projects }) {
           if (medium.type == "embeddedVideo") {
             return (
               <div className="practice-image" key={i}>
-                <EmbeddedVideoContainer embeddedVideo={medium} index={i} />
+                <a href={`/practice/${medium.slug?.current}`}>
+                  <EmbeddedVideoContainer embeddedVideo={medium} index={i} />
+                </a>
               </div>
             );
           }
 
           return (
-            <div className="practice-image" key={i}>
-              <ImageContainer medium={medium} />
-            </div>
+            <a href={`/practice/${medium.slug?.current}`}>
+              <div className="practice-image" key={i}>
+                <ImageContainer medium={medium} />
+              </div>
+            </a>
           );
         })}
     </div>
