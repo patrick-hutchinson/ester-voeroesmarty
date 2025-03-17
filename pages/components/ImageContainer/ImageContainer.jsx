@@ -60,7 +60,7 @@ export default function ImageContainer({ medium }) {
     // *** LOAD IMAGE
     const getOptimizedImageUrl = (url) => {
       if (!url) return null;
-      return window.innerWidth <= 768 ? `${url}?w=1000` : url; // Adjust width threshold as needed
+      return window.innerWidth <= 768 ? `${url}?w=2000` : url; // Adjust width threshold as needed
     };
 
     const texture = new THREE.TextureLoader().load(getOptimizedImageUrl(medium?.url), () => {
