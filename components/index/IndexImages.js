@@ -24,7 +24,7 @@ export default function IndexImages({ projects }) {
         media.map((medium, i) => {
           if (medium.type == "embeddedVideo") {
             return (
-              <a href={`/practice/${medium.slug?.current}`}>
+              <a href={`/practice/${medium.slug?.current}`} className="proxy-links">
                 <div className="practice-image" key={i}>
                   <EmbeddedVideoContainer embeddedVideo={medium} index={i} />
                 </div>
@@ -33,7 +33,7 @@ export default function IndexImages({ projects }) {
           }
 
           return (
-            <a href={`/practice/${medium.slug?.current}`}>
+            <a href={`/practice/${medium.slug?.current}`} className="proxy-links">
               <div className="practice-image" key={i}>
                 <ImageContainer medium={medium} />
               </div>
