@@ -31,9 +31,11 @@ export default function Menu({
     });
   }
 
-  function handleResize() {
-    menuRef.current.style["mix-blend-mode"] = "difference";
-  }
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      menuRef.current.style["mix-blend-mode"] = "difference !important";
+    });
+  });
 
   return (
     <nav
