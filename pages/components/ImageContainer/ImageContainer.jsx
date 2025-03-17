@@ -22,7 +22,7 @@ export default function ImageContainer({ medium }) {
     const scene = new THREE.Scene();
 
     const width = imageWrapperRef.current.getBoundingClientRect().width;
-    const height = imageWrapperRef.current.getBoundingClientRect().height;
+    const height = imageWrapperRef.current.getBoundingClientRect().height + 5;
 
     const camera = new THREE.OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, 1, 1000);
     camera.position.z = 100;
@@ -173,14 +173,14 @@ export default function ImageContainer({ medium }) {
     <div
       ref={imageWrapperRef}
       className="image-wrapper"
-      style={{ position: "relative", width: "100%", height: "fit-content", overflow: "hidden" }}
+      style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden" }}
     >
       {/* Blurred Placeholder (Stays until high-res fully loads) */}
       <Image
         src={`${medium?.url}?w=20`}
         alt="project image"
         width={medium?.width}
-        height={medium?.height}
+        height={medium?.height + 20}
         style={{
           position: "relative",
           top: 0,

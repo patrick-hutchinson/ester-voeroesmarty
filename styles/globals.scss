@@ -220,7 +220,7 @@ nav.menu {
   }
 
   &.menu-goods {
-    // mix-blend-mode: unset !important;
+    mix-blend-mode: unset !important;
   }
 
   &.menu-home {
@@ -250,7 +250,7 @@ nav.menu {
   }
 
   &.menu-list-page {
-    // mix-blend-mode: unset !important;
+    mix-blend-mode: unset !important;
 
     p,
     a {
@@ -411,7 +411,8 @@ nav.menu {
 .image-wrapper {
   position: relative;
   width: 100%;
-  height: fit-content;
+  // height: fit-content;
+  height: 100%;
   overflow: hidden;
   pointer-events: all;
 }
@@ -504,7 +505,8 @@ nav.menu {
 
   .practice-image {
     width: 90vw;
-    height: fit-content;
+    // height: fit-content;
+    height: 100%;
     display: flex;
     align-items: center;
 
@@ -526,7 +528,7 @@ nav.menu {
     img,
     video {
       width: 100%;
-      height: auto;
+      height: 100%;
     }
   }
 }
