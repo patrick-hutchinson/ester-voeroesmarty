@@ -112,14 +112,7 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
       start: "top 50%", // Trigger when the top of the element is 80% from the top of the viewport
       onEnter: () => anim.play(),
       onEnterBack: () => anim.play(),
-      //   onLeave: () => {
-      //     animOut.play();
-      //     anim.progress(0).pause();
-      //   },
-      //   onLeaveBack: () => {
-      //     animOut.play();
-      //     anim.progress(0).pause();
-      //   },
+
       once: true,
     });
 

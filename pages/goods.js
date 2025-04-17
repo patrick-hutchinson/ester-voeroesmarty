@@ -79,7 +79,7 @@ export default function Goods({ goods }) {
                   <p className="caption">{good.sizeAndPrice && good.sizeAndPrice}</p>
                   <p className="caption">
                     {!good.soldOut && (
-                      <a href={good.buyLink} target="_blank">
+                      <a href="mailto:office@esthervoeroesmarty.com" target="_blank">
                         (Buy)
                       </a>
                     )}
