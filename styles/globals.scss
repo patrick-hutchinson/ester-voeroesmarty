@@ -1044,7 +1044,7 @@ $lineHeight: 0.3px;
           padding: $pTop 0 $pBottom 0;
 
           @include xs {
-            width: var(--mobile-extra-width);
+            // width: var(--mobile-extra-width);
             grid-template-columns: repeat(14, 1fr);
           }
 
