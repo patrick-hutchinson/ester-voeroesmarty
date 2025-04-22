@@ -75,9 +75,11 @@ export default function Goods({ goods }) {
                 <div className="line">
                   <p className="caption">{good.year && good.year}</p>
                   <p className="caption">{good.type && good.type}</p>
-                  <p className="caption">{good.location && good.location}</p>
+                  {width >= 732 && <p className="caption">{good.location && good.location}</p>}
                   <p className="caption">{good.sizeAndPrice && good.sizeAndPrice}</p>
-                  <p className="caption">
+
+                  {/* <br /> */}
+                  <p className="caption buy">
                     {!good.soldOut && (
                       <a href="mailto:office@esthervoeroesmarty.com" target="_blank">
                         (Buy)

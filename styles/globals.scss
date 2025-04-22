@@ -1060,7 +1060,7 @@ $lineHeight: 0.3px;
           p {
             @include xs {
               text-overflow: ellipsis;
-              white-space: nowrap;
+              // white-space: nowrap;
               overflow: hidden;
             }
 
