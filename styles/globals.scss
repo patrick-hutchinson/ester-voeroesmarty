@@ -360,10 +360,12 @@ nav.menu {
   left: var(--lr-margin);
   z-index: 9999;
   width: calc(100% - var(--lr-margin) * 2);
+  overflow-x: scroll;
+  pointer-events: none;
 
   h1 {
-    overflow-x: hidden;
-    text-overflow: ellipsis;
+    // overflow-x: hidden;
+    // text-overflow: ellipsis;
     white-space: nowrap;
 
     &::-webkit-scrollbar {
@@ -387,21 +389,7 @@ nav.menu {
     transform: translateY(-0.55em);
     margin-top: 0;
     padding-top: 0;
-
-    // &::before {
-    //   display: none;
-    // }
   }
-
-  // &::before {
-  //   content: "";
-  //   position: absolute;
-  //   top: 0;
-  //   height: 0.3px;
-  //   background: black;
-  //   width: calc(100% - calc(var(--lr-margin)* 2));
-  //   z-index: 1;
-  // }
 }
 
 .image-wrapper--threejs {

@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import useWindowDimensions from "@/utils/useWindowDimensions";
 import client from "@/sanityClient";
 import { PortableText } from "@portabletext/react";
-import { drawConsoleLabel } from "@/utils/consoleLabel";
+// import { drawConsoleLabel } from "@/utils/consoleLabel";
 
 export default function Index({ projects, mainPage }) {
   const { width } = useWindowDimensions();

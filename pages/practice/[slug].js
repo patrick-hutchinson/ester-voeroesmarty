@@ -1,4 +1,3 @@
-import { gql } from "@apollo/client";
 import client from "@/sanityClient";
 import { MainLayout } from "@/components/MainLayout";
 import { useEffect, useState, useRef } from "react";
@@ -24,11 +23,44 @@ const EmbeddedVideoContainer = dynamic(
 gsap.registerPlugin(ScrollToPlugin);
 
 export default function Practice({ info, media, allProjects }) {
-  let playerRef = useRef(null);
+  let titleRef = useRef(null);
+  let innerTitleRef = useRef(null);
+  const [shouldScroll, setShouldScroll] = useState(false);
 
   useEffect(() => {
     document.body.style.backgroundColor = "white";
   }, []);
+
+  useEffect(() => {
+    let titleWrapper = titleRef.current;
+    let titleInner = innerTitleRef.current;
+    let scrollInterval;
+
+    if (titleWrapper && titleInner) {
+      let titleInnerWidth = titleInner.getBoundingClientRect().width;
+
+      if (titleWrapper.scrollWidth > titleInnerWidth) {
+        let direction = 1; // 1 = scroll right, -1 = scroll left
+        scrollInterval = setInterval(() => {
+          titleWrapper.scrollLeft += direction;
+
+          // When we reach the end, reverse direction
+          if (titleWrapper.scrollLeft >= titleWrapper.scrollWidth - titleWrapper.clientWidth) {
+            direction = -1;
+          }
+
+          // When we reach the start, reverse direction
+          if (titleWrapper.scrollLeft <= 0) {
+            direction = 1;
+          }
+        }, 20); // every 20 milliseconds
+      }
+    }
+
+    return () => clearInterval(scrollInterval); // clear on unmount
+  }, []);
+
+  function handleTitleScroll() {}
 
   const handleScrollToTop = () => {
     gsap.to(window, {
@@ -82,8 +114,8 @@ export default function Practice({ info, media, allProjects }) {
           )}
       </div>
       {info.theme && (
-        <div className="practice-title">
-          <h1>{info.theme}</h1>
+        <div className="practice-title" ref={titleRef}>
+          <h1 ref={innerTitleRef}>{info.theme}</h1>
         </div>
       )}
 

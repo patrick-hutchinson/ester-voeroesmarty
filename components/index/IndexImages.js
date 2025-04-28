@@ -13,7 +13,6 @@ const EmbeddedVideoContainer = dynamic(
 );
 
 export default function IndexImages({ projects }) {
-  console.log(projects);
   const media = projects
     .map((project) => project.cover[0] && { ...project.cover[0], slug: project.slug }) // Include slug
     .filter(Boolean);

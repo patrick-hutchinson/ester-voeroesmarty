@@ -5,10 +5,6 @@ export default function IndexTitleAndCounter({ projects }) {
   const [projectsWithCover, setProjectsWithCover] = useState(projects.filter((project) => project.cover));
 
   useEffect(() => {
-    console.log(titleCounter);
-  }, []);
-
-  useEffect(() => {
     const checkTitleTop = () => {
       const threshold = 64;
       document.querySelectorAll(".proxy-links").forEach((item, i) => {

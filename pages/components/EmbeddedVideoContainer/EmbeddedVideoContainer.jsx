@@ -128,7 +128,6 @@ export default function EmbeddedVideoContainer({ index, embeddedVideo }) {
   }, []);
 
   function handlePlayVideo() {
-    console.log("click!");
     thumbnailRef.current.style.opacity = 0;
   }
 

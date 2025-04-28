@@ -64,7 +64,6 @@ export default function ImageContainer({ medium }) {
     };
 
     const texture = new THREE.TextureLoader().load(getOptimizedImageUrl(medium?.url), () => {
-      console.log(medium.url, "medium url");
       // Once the texture loads, reveal the plane
       material.uniforms.threshold.value = 1; // Ensure the image is fully visible
       mountRef.current.style.opacity = 1; // Show Three.js canvas
@@ -143,8 +142,6 @@ export default function ImageContainer({ medium }) {
     observer.observe(imageWrapperRef.current);
 
     return () => {
-      console.log("✅ Cleaning up Three.js scene");
-
       window.removeEventListener("resize", updateDimensions);
 
       material.dispose();
