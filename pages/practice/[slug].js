@@ -60,8 +60,6 @@ export default function Practice({ info, media, allProjects }) {
     return () => clearInterval(scrollInterval); // clear on unmount
   }, []);
 
-  function handleTitleScroll() {}
-
   const handleScrollToTop = () => {
     gsap.to(window, {
       duration: 1,
