@@ -322,6 +322,10 @@ nav.menu {
       gap: 42px;
     }
 
+    @include m {
+      gap: 42px;
+    }
+
     @include xl {
       gap: 110px;
     }

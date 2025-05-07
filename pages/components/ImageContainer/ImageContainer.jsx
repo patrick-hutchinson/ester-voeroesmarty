@@ -69,7 +69,7 @@ export default function ImageContainer({ medium }) {
       mountRef.current.style.opacity = 1; // Show Three.js canvas
     });
 
-    texture.format = THREE.RGBAFormat;
+    // texture.format = THREE.RGBAFormat;
 
     // Initially hide the Three.js canvas
     mountRef.current.style.opacity = 0;
@@ -97,8 +97,8 @@ export default function ImageContainer({ medium }) {
                                 varying vec2 vUv;
                                 void main() {
                                     vec4 texel = texture2D(imageTexture, vUv);
-float brightness = dot(texel.rgb, vec3(0.299, 0.587, 0.114));
-if (brightness > threshold) {
+                                    float brightness = dot(texel.rgb, vec3(0.299, 0.587, 0.114));
+                                    if (brightness > threshold) {
     gl_FragColor = texel;
 } else {
     discard;
@@ -124,6 +124,10 @@ if (brightness > threshold) {
       onEnterBack: () => anim.play(),
       once: true,
     });
+
+    if (imageWrapperRef.current.getBoundingClientRect().top < window.innerHeight / 2) {
+      anim.play();
+    }
 
     // *** RENDER
     const animate = () => {
